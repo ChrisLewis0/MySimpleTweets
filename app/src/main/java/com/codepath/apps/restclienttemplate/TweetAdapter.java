@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.util.List;
@@ -20,12 +21,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     public TweetAdapter(List<Tweet> tweets) {
         mTweets = tweets;
     }
+    Context context;
 
     // for each row inflate the layout and cache references in ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // get context
-        Context context = parent.getContext();
+        context = parent.getContext();
         // instantiate inflater
         LayoutInflater inflater = LayoutInflater.from(context);
         // inflate tweet
@@ -42,6 +44,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         // populate views according to data
         holder.tvUsername.setText(tweet.user.name);
         holder.tvBody.setText(tweet.body);
+
+        Glide.with(context)
+                .load(tweet.user.profileImageUrl)
+                .into(holder.ivProfileImage);
     }
 
     // size of data
