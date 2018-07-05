@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.parceler.Parcels;
@@ -50,6 +52,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
 
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
+                .apply(new RequestOptions()
+                        .transforms(new CircleCrop()))
                 .into(holder.ivProfileImage);
     }
 
