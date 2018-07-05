@@ -20,4 +20,14 @@
         android:layout_below="@+id/etTweet"
         android:text="Submit" />
 
+    <TextView
+        android:id="@+id/tvWordCount"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_alignBottom="@+id/bSubmit"
+        android:layout_below="@+id/etTweet"
+        android:layout_toStartOf="@+id/bSubmit"
+        android:gravity="center"
+        android:text="0 of 140 characters" />
+
 </RelativeLayout>
