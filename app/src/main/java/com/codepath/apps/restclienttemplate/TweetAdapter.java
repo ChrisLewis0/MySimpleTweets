@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -57,7 +60,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
     }
 
     // create the ViewHolder class
-    public  static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // views
         public ImageView ivProfileImage;
         public TextView tvUsername;
@@ -69,7 +72,26 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvUsername = itemView.findViewById(R.id.tvUserName);
             tvBody = itemView.findViewById(R.id.tvBody);
+            // set up click listener
+            itemView.setOnClickListener(this);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            // gets item position
+            int position = getAdapterPosition();
+            // make sure the position exists
+            if (position != RecyclerView.NO_POSITION) {
+                // get the movie at the position
+                Tweet tweet = mTweets.get(position);
+                // create intent to new activity
+                Intent intent = new Intent(context, TweetDetailActivity.class);
+                // serialize the tweet
+                intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                // start new activity
+                context.startActivity(intent);
+            }
         }
     }
 
