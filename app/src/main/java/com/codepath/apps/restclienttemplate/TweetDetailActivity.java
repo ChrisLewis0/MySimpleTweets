@@ -19,6 +19,7 @@ public class TweetDetailActivity extends AppCompatActivity {
     // view objects
     ImageView ivProfileImage;
     TextView tvUsername;
+    TextView tvScreenName;
     TextView tvBody;
 
     @Override
@@ -28,12 +29,15 @@ public class TweetDetailActivity extends AppCompatActivity {
         // perform findViewById lookups
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvUsername = findViewById(R.id.tvUsername);
+        tvScreenName = findViewById(R.id.tvScreenName);
         tvBody = findViewById(R.id.tvBody);
         // unwrap the tweet passed in via intent, using its simple name as a key
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         // populate views according to data
         tvUsername.setText(tweet.user.name);
+        tvScreenName.setText("@" + tweet.user.screenName);
         tvBody.setText(tweet.body);
+
 
         Glide.with(this)
                 .load(tweet.user.profileImageUrl)
