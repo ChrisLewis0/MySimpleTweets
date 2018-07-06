@@ -23,7 +23,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class ComposeActivity extends AppCompatActivity {
 
-    // constants
+    Button bSubmit;
     TwitterClient client;
     EditText etTweet;
     TextView tvWordCount;
@@ -33,26 +33,20 @@ public class ComposeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
-        // instantiate client
+
         client = TwitterApp.getRestClient(this);
-        // find word count text
+
         tvWordCount = findViewById(R.id.tvWordCount);
-        // find tweet text
+
         etTweet = findViewById(R.id.etTweet);
-        // set tweet max character count
         etTweet.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MAX_WORD_COUNT) });
-        // connect to submit button
         etTweet.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -61,23 +55,19 @@ public class ComposeActivity extends AppCompatActivity {
                 tvWordCount.setText(currentLength + " of 140 characters");
             }
         });
-        final Button button = findViewById(R.id.bSubmit);
-        button.setOnClickListener(new View.OnClickListener() {
+
+        bSubmit = findViewById(R.id.bSubmit);
+        bSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 client.sendTweet(etTweet.getText().toString(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        // creates Tweet
                         try {
-                            // prepare data intent
                             Intent data = new Intent();
-                            // pass tweet back to parent activity
                             Tweet tweet = Tweet.fromJSON(response);
                             data.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
-                            // activity finished, return data
                             setResult(RESULT_OK, data);
                             finish();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
