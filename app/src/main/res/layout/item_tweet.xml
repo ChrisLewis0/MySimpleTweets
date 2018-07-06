@@ -30,4 +30,5 @@
         android:layout_below="@+id/tvUserName"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="TextView" />
+
 </RelativeLayout>
