@@ -23,6 +23,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class ComposeActivity extends AppCompatActivity {
 
+    Tweet tweet;
     Button bSubmit;
     TwitterClient client;
     EditText etTweet;
@@ -35,10 +36,11 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
 
         client = TwitterApp.getRestClient(this);
-
+        tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
         tvWordCount = findViewById(R.id.tvWordCount);
 
         etTweet = findViewById(R.id.etTweet);
+        etTweet.setText("@" + tweet.user.screenName);
         etTweet.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MAX_WORD_COUNT) });
         etTweet.addTextChangedListener(new TextWatcher() {
 

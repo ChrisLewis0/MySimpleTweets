@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,12 +58,26 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
         public ImageView ivProfileImage;
         public TextView tvUsername;
         public TextView tvBody;
+        public ImageButton ibReply;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvUsername = itemView.findViewById(R.id.tvUserName);
             tvBody = itemView.findViewById(R.id.tvBody);
+            ibReply = itemView.findViewById(R.id.ibReply);
+            ibReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Tweet tweet = mTweets.get(position);
+                        Intent intent = new Intent(context, ComposeActivity.class);
+                        intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                        context.startActivity(intent);
+                    }
+                }
+            });
             itemView.setOnClickListener(this);
 
         }
@@ -77,6 +92,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder>{
                 context.startActivity(intent);
             }
         }
+
     }
 
     public void clear() {
