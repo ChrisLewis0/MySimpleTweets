@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,36 +22,45 @@ import cz.msebera.android.httpclient.Header;
 
 public class TweetDetailActivity extends AppCompatActivity {
 
-    // set up client
+
     TwitterClient client;
-    // the tweet to display
+
     Tweet tweet;
-    // view objects
+
     ImageView ivProfileImage;
     TextView tvUsername;
     TextView tvScreenName;
     TextView tvBody;
     ImageButton ibRetweet;
+    ImageButton ibFav;
+
+    boolean isFaved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // instantiates client
-        client = TwitterApp.getRestClient(this);
         setContentView(R.layout.activity_tweet_detail);
-        // perform findViewById lookups
+
+        tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
+
+        client = TwitterApp.getRestClient(this);
+
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvUsername = findViewById(R.id.tvUsername);
         tvScreenName = findViewById(R.id.tvScreenName);
         tvBody = findViewById(R.id.tvBody);
         ibRetweet = findViewById(R.id.ibRetweet);
-        // unwrap the tweet passed in via intent, using its simple name as a key
-        tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
-        // populate views according to data
+        ibFav = findViewById(R.id.ibFav);
+
         tvUsername.setText(tweet.user.name);
         tvScreenName.setText("@" + tweet.user.screenName);
         tvBody.setText(tweet.body);
-        // enable retweet button
+        Glide.with(this)
+                .load(tweet.user.profileImageUrl)
+                .apply(new RequestOptions()
+                        .transforms(new CircleCrop()))
+                .into(ivProfileImage);
+
         ibRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,21 +71,50 @@ public class TweetDetailActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), TimelineActivity.class);
                         startActivity(intent);
                     }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
-                    }
                 });
             }
         });
 
+        isFaved = tweet.isFaved;
+        if (isFaved) {
+            ibFav.setImageResource(R.drawable.ic_vector_heart);
+        }
+        else {
+            ibFav.setImageResource(R.drawable.ic_vector_heart_stroke);
+        }
+        ibFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFaved) {
+                    client.unFavorite(tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            ibFav.setImageResource(R.drawable.ic_vector_heart_stroke);
+                            isFaved =! isFaved;
+                        }
 
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+                    });
+                }
+                else {
+                    client.favorite(tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            ibFav.setImageResource(R.drawable.ic_vector_heart);
+                            isFaved =! isFaved;
+                        }
 
-        Glide.with(this)
-                .load(tweet.user.profileImageUrl)
-                .apply(new RequestOptions()
-                        .transforms(new CircleCrop()))
-                .into(ivProfileImage);
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();                        }
+                    });
+                }
+            }
+        });
     }
 }

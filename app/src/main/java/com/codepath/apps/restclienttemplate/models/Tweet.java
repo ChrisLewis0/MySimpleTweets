@@ -11,6 +11,7 @@ public class Tweet {
     public long uid; // database id for tweet
     public User user;
     public String createAt;
+    public boolean isFaved;
 
     // constructor for Parceler
     public Tweet() {}
@@ -24,6 +25,7 @@ public class Tweet {
         tweet.uid = jsonObject.getLong("id");
         tweet.createAt = jsonObject.getString("created_at");
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+        tweet.isFaved = jsonObject.getBoolean("favorited");
         // return tweet
         return tweet;
     }

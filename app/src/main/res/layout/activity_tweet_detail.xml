@@ -62,13 +62,13 @@
         app:srcCompat="@drawable/ic_vector_retweet" />
 
     <ImageButton
-        android:id="@+id/ibLike"
+        android:id="@+id/ibFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBody"
-        android:layout_toEndOf="@+id/ibRetweet"
         android:layout_alignBottom="@+id/ibRetweet"
         android:layout_alignTop="@+id/ibRetweet"
+        android:layout_below="@+id/tvBody"
+        android:layout_toEndOf="@+id/ibRetweet"
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
 </RelativeLayout>
