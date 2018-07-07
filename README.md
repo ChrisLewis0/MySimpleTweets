@@ -50,7 +50,7 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
-!(walkthrough)[SimpleTweets.gif]
+![walkthrough](SimpleTweets.gif)
 
 ## Notes
 
