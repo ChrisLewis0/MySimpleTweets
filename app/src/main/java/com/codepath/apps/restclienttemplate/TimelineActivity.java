@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -84,8 +86,31 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.miCompose:
+                composeMessage();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-    public void onCompose(View v) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.tweet, menu);
+        return true;
+    }
+
+    public void composeMessage() {
+        Intent intent = new Intent(this, ComposeActivity.class);
+        this.startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    public void composeMessage(View v) {
         Intent intent = new Intent(this, ComposeActivity.class);
         this.startActivityForResult(intent, REQUEST_CODE);
     }

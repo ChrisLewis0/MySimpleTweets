@@ -32,7 +32,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="5dp"
         android:backgroundTint="@color/twitter_blue"
-        android:onClick="onCompose"
+        android:onClick="composeMessage"
         app:srcCompat="@drawable/vector_compose_fab"
         tools:layout_editor_absoluteX="264dp"
         tools:layout_editor_absoluteY="397dp" />
