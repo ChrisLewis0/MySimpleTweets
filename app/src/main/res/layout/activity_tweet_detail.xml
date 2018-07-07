@@ -59,7 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvBody"
         android:layout_below="@+id/tvBody"
-        app:srcCompat="@drawable/ic_vector_retweet" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/ic_vector_retweet"
+        android:scaleType="fitXY" />
 
     <ImageButton
         android:id="@+id/ibFav"
@@ -69,6 +72,7 @@
         android:layout_alignTop="@+id/ibRetweet"
         android:layout_below="@+id/tvBody"
         android:layout_toEndOf="@+id/ibRetweet"
-        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+        android:background="@drawable/ic_vector_heart_stroke"
+        android:scaleType="fitXY" />
 
 </RelativeLayout>

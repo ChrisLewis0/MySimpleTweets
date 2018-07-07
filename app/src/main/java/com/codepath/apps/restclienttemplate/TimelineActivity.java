@@ -7,8 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -86,22 +85,9 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.tweet, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.miCompose:
-                Intent intent = new Intent(this, ComposeActivity.class);
-                this.startActivityForResult(intent, REQUEST_CODE);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void onCompose(View v) {
+        Intent intent = new Intent(this, ComposeActivity.class);
+        this.startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override

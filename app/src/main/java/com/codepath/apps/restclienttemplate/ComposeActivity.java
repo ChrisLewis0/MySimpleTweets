@@ -40,7 +40,7 @@ public class ComposeActivity extends AppCompatActivity {
         tvWordCount = findViewById(R.id.tvWordCount);
 
         etTweet = findViewById(R.id.etTweet);
-        etTweet.setText("@" + tweet.user.screenName);
+        //etTweet.setText("@" + tweet.user.screenName);
         etTweet.setFilters(new InputFilter[] { new InputFilter.LengthFilter(MAX_WORD_COUNT) });
         etTweet.addTextChangedListener(new TextWatcher() {
 
